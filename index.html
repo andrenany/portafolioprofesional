@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fanny Araujo · Informática, datos y automatización</title>
+  <meta name="description" content="Fanny Araujo. Ingeniería Informática Duoc UC. Dashboards, Python, automatización y desarrollo web. Disponible para teletrabajo desde Puerto Montt." />
+  <meta name="theme-color" content="#f4f2ef" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f2ef;
+      --card: #ffffff;
+      --line: #e4ddd6;
+      --ink: #1f1a1c;
+      --muted: #6b6468;
+      --rose: #8b4a5a;
+      --navy: #2c2430;
+      --blush: #f0e6e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    button, input, textarea { font: inherit; }
+    .wrap { width: min(1160px, calc(100% - 36px)); margin-inline: auto; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(244, 242, 239, .9);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; gap: 16px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; font-weight: 700; letter-spacing: -.02em;
+    }
+    .mark {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: grid; place-items: center;
+      background: var(--navy); color: #fff;
+      font-family: Fraunces, serif; font-weight: 600; font-size: 13px;
+    }
+    .nav-links { display: flex; gap: 2px; list-style: none; align-items: center; }
+    .nav-links a {
+      text-decoration: none; font-size: .9rem; font-weight: 600;
+      padding: 8px 12px; border-radius: 8px; color: var(--muted);
+    }
+    .nav-links a:hover { color: var(--ink); background: #fff; }
+    .nav-cta {
+      background: var(--navy) !important; color: #fff !important;
+      padding: 8px 14px !important;
+    }
+    .burger {
+      display: none; width: 42px; height: 42px; border-radius: 8px;
+      border: 1px solid var(--line); background: var(--card); color: var(--ink);
+      cursor: pointer;
+    }
+
+    .hero { position: relative; overflow: hidden; padding: 72px 0 88px; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--rose); margin-bottom: 16px;
+    }
+    .kicker i { width: 7px; height: 7px; border-radius: 50%; background: var(--rose); display: block; }
+    h1 {
+      font-family: Fraunces, serif; font-weight: 600;
+      font-size: clamp(2.4rem, 6.5vw, 4.4rem);
+      line-height: 1.05; letter-spacing: -.03em; max-width: 16ch;
+    }
+    .lead {
+      margin-top: 20px; max-width: 58ch; color: var(--muted); font-size: 1.08rem;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; font-weight: 600; border-radius: 8px;
+      padding: 12px 18px; border: 1px solid transparent; cursor: pointer;
+    }
+    .btn-lime { background: var(--navy); color: #fff; }
+    .btn-lime:hover { background: #3d3344; }
+    .btn-ghost { border-color: var(--line); color: var(--ink); background: #fff; }
+    .btn-ghost:hover { border-color: var(--navy); }
+    .meta-row {
+      display: flex; flex-wrap: wrap; gap: 18px; margin-top: 36px;
+      color: var(--muted); font-size: .92rem;
+    }
+    .meta-row strong { color: var(--ink); }
+
+    .marquee-wrap {
+      border-block: 1px solid var(--line);
+      overflow: hidden; padding: 12px 0;
+      background: #fff;
+    }
+    .marquee {
+      display: flex; gap: 28px; width: max-content;
+      animation: slide 32s linear infinite;
+      font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      font-size: .72rem; color: var(--muted);
+    }
+    .marquee span { white-space: nowrap; }
+    .marquee b { color: var(--rose); font-weight: 600; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    section { padding: 84px 0; }
+    .eyebrow {
+      color: var(--rose); font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; font-size: .72rem; margin-bottom: 10px;
+    }
+    h2 {
+      font-family: Fraunces, serif; font-weight: 600;
+      font-size: clamp(1.7rem, 3.4vw, 2.5rem); letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    .intro { max-width: 64ch; color: var(--muted); }
+
+    .split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 36px;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 24px;
+    }
+    .card h3 { font-family: Fraunces, serif; margin-bottom: 8px; font-size: 1.2rem; }
+    .card p { color: var(--muted); }
+    .facts { display: grid; gap: 12px; }
+    .facts li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+    .facts b { color: var(--ink); display: block; }
+
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .service {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 22px; min-height: 200px;
+      transition: border-color .18s;
+    }
+    .service:hover { border-color: var(--navy); }
+    .n {
+      font-family: Fraunces, serif; color: var(--rose); font-size: 1.15rem; margin-bottom: 10px;
+    }
+    .service h3 { margin-bottom: 8px; }
+    .service p { color: var(--muted); font-size: .95rem; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 18px; }
+    .filters button {
+      background: #fff; color: var(--muted); border: 1px solid var(--line);
+      border-radius: 8px; padding: 7px 13px; font-weight: 600; cursor: pointer;
+    }
+    .filters button.active, .filters button:hover {
+      background: var(--navy); color: #fff; border-color: var(--navy);
+    }
+    .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .project {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 10px;
+      min-height: 220px;
+    }
+    .project:hover { border-color: #cfc6bf; }
+    .tag {
+      width: fit-content; font-size: .7rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--rose); background: var(--blush);
+      padding: 4px 9px; border-radius: 6px;
+    }
+    .project h3 { font-family: Fraunces, serif; font-size: 1.22rem; font-weight: 600; }
+    .project p { color: var(--muted); flex: 1; }
+    .stack-line { font-size: .82rem; color: #7a7276; }
+
+    .demo {
+      margin-top: 18px; background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 22px;
+    }
+    .demo-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .demo-head span { color: var(--muted); font-size: .85rem; }
+    .chart-wrap { height: 280px; margin-top: 8px; }
+
+    .tech { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .tech span {
+      border: 1px solid var(--line); border-radius: 8px;
+      padding: 7px 12px; font-weight: 600; font-size: .86rem;
+      background: #fff; color: var(--navy);
+    }
+
+    .contact-box {
+      background: #fff;
+      border: 1px solid var(--line); border-radius: 16px; padding: 32px;
+    }
+    .contact-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; margin-top: 22px; }
+    .contact-list { display: grid; gap: 12px; }
+    .contact-list a, .contact-list span {
+      display: block; text-decoration: none; padding: 13px 15px;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+    }
+    .contact-list a:hover { border-color: var(--navy); }
+    .contact-list small { display: block; color: var(--muted); font-size: .78rem; }
+    .contact-list b { font-size: 1.02rem; }
+    form { display: grid; gap: 10px; }
+    form input, form textarea {
+      width: 100%; background: #fff; color: var(--ink);
+      border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px;
+    }
+    form input:focus, form textarea:focus { outline: 2px solid var(--blush); border-color: var(--navy); }
+    form textarea { min-height: 120px; resize: vertical; }
+
+    footer {
+      padding: 28px 0 40px; border-top: 1px solid var(--line);
+      color: var(--muted); font-size: .88rem;
+    }
+    .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .split, .services, .projects, .contact-grid { grid-template-columns: 1fr; }
+      .burger { display: grid; place-items: center; }
+      .nav-links {
+        display: none; position: absolute; right: 18px; top: 68px;
+        background: #fff; border: 1px solid var(--line); border-radius: 12px;
+        padding: 10px; flex-direction: column; min-width: 220px;
+      }
+      .nav-links.open { display: flex; }
+      h1 { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#inicio"><span class="mark">FA</span> Fanny Araujo</a>
+      <button class="burger" id="burger" aria-label="Abrir menú">☰</button>
+      <ul class="nav-links" id="menu">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#sobre">Sobre mí</a></li>
+        <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <p class="kicker"><i></i> Disponible para teletrabajo</p>
+      <h1>Soluciones de datos y software, listas para usar.</h1>
+      <p class="lead">
+        Fanny Andreina Araujo Linares. Ingeniera en Administración y estudiante de Ingeniería Informática, Duoc UC Puerto Montt.
+        Uno negocio y tecnología: traduzco lo que pide cada área y lo dejo en dashboards, automatización y software listo para usar.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-lime" href="https://wa.me/56932799172" target="_blank" rel="noopener">Contactar por WhatsApp</a>
+        <a class="btn btn-ghost" href="#proyectos">Ver proyectos</a>
+      </div>
+      <div class="meta-row">
+        <span><strong>Puerto Montt</strong> · 100% remoto</span>
+        <span><strong>Duoc UC</strong> · Ing. Informática</span>
+        <span><strong>Stack</strong> · Python, HTML, datos, web</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee">
+      <span>Python <b>·</b> pandas <b>·</b> HTML/CSS <b>·</b> JavaScript <b>·</b> FastAPI <b>·</b> Power BI <b>·</b> Excel <b>·</b> SQL <b>·</b> Chart.js <b>·</b> Android <b>·</b> PySpark <b>·</b></span>
+      <span>Python <b>·</b> pandas <b>·</b> HTML/CSS <b>·</b> JavaScript <b>·</b> FastAPI <b>·</b> Power BI <b>·</b> Excel <b>·</b> SQL <b>·</b> Chart.js <b>·</b> Android <b>·</b> PySpark <b>·</b></span>
+    </div>
+  </div>
+
+  <section id="servicios">
+    <div class="wrap">
+      <p class="eyebrow">Servicios</p>
+      <h2>Qué puedo desarrollar</h2>
+      <p class="intro">Entrego procesos reproducibles: un requerimiento entra y sale un producto documentado, ejecutable de nuevo cuando cambian los datos.</p>
+      <div class="services">
+        <article class="service">
+          <div class="n">01</div>
+          <h3>Dashboards y reportes</h3>
+          <p>Tableros HTML o Power BI con filtros, indicadores y lectura clara para gerencia o reuniones. De la planilla al panel.</p>
+        </article>
+        <article class="service">
+          <div class="n">02</div>
+          <h3>Automatización con Python</h3>
+          <p>Limpieza de datos, cruces entre archivos, gráficos automáticos y actualización de presentaciones. Menos copia-pega, más pipeline.</p>
+        </article>
+        <article class="service">
+          <div class="n">03</div>
+          <h3>Desarrollo web y apps</h3>
+          <p>Sitios, prototipos de sistemas con roles y APIs (FastAPI, Android). Desarrollo por etapas, con alcance y entregable definidos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow">Portafolio</p>
+      <h2>Proyectos seleccionados</h2>
+      <p class="intro">Trabajo real de datos y software, más encargos académicos. Sin cifras confidenciales de clientes.</p>
+      <div class="filters" id="filtros">
+        <button class="active" data-filter="all">Todos</button>
+        <button data-filter="datos">Datos</button>
+        <button data-filter="web">Web / app</button>
+        <button data-filter="auto">Automatización</button>
+      </div>
+      <div class="projects" id="cards">
+        <article class="project" data-cat="datos">
+          <span class="tag">Datos · Comercial</span>
+          <h3>Dashboard de facturación y OC</h3>
+          <p>Tablero HTML que unifica ventas, órdenes de compra y facturado. Clasificación por reglas de negocio, filtros y vistas para el área comercial.</p>
+          <p class="stack-line">Python · pandas · HTML/CSS · Chart.js</p>
+        </article>
+        <article class="project" data-cat="auto">
+          <span class="tag">Automatización</span>
+          <h3>Fábrica de reportes y PPT</h3>
+          <p>Scripts que leen Excel, generan gráficos y reemplazan imágenes en PowerPoint. El informe se actualiza sin armar las láminas a mano.</p>
+          <p class="stack-line">Python · matplotlib · openpyxl · python-pptx</p>
+        </article>
+        <article class="project" data-cat="web">
+          <span class="tag">App</span>
+          <h3>Organizador</h3>
+          <p>App de gastos, presupuestos y cuotas. Backend FastAPI con usuarios, recuperación de clave y base en la nube; cliente web y prototipo Android.</p>
+          <p class="stack-line">FastAPI · JavaScript · Kotlin · GitHub andrenany</p>
+        </article>
+        <article class="project" data-cat="datos">
+          <span class="tag">Big Data</span>
+          <h3>Pipeline FARS + Grafana</h3>
+          <p>ETL batch y streaming con PySpark, validación de esquema, carga a PostgreSQL y paneles. Caso Duoc: accidentabilidad vial.</p>
+          <p class="stack-line">PySpark · PostgreSQL · Grafana</p>
+        </article>
+        <article class="project" data-cat="web">
+          <span class="tag">Sistemas</span>
+          <h3>Casino escolar con QR</h3>
+          <p>Demo de prepago: apoderado, caja y admin. Saldo, compras, lectura QR, alertas y reportes. Diez requerimientos funcionales cubiertos.</p>
+          <p class="stack-line">HTML · JavaScript · localStorage</p>
+        </article>
+        <article class="project" data-cat="datos">
+          <span class="tag">Minería de datos</span>
+          <h3>Decisiones e-commerce</h3>
+          <p>RFM + K-Means, reglas Apriori, cohortes y dashboard de insights para campaña. De notebook a tablero HTML usable.</p>
+          <p class="stack-line">pandas · scikit-learn · HTML</p>
+        </article>
+        <article class="project" data-cat="datos">
+          <span class="tag">Machine learning</span>
+          <h3>Tasación InnovaReal Estate</h3>
+          <p>Modelo predictivo de precios de vivienda: preparación de datos, visualización y análisis crítico del resultado.</p>
+          <p class="stack-line">Python · Jupyter · modelos predictivos</p>
+        </article>
+        <article class="project" data-cat="web">
+          <span class="tag">APIs</span>
+          <h3>Clima, Pokédex y más</h3>
+          <p>Consumo de APIs públicas, login y juego del dinosaurio. Práctica de frontend y consumo de servicios.</p>
+          <p class="stack-line"><a href="https://github.com/andrenany" target="_blank" rel="noopener">github.com/andrenany</a></p>
+        </article>
+      </div>
+
+      <div class="demo">
+        <div class="demo-head">
+          <h3>Ejemplo de tablero</h3>
+          <span>Datos de ejemplo · no son de un cliente</span>
+        </div>
+        <div class="chart-wrap"><canvas id="demoChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="wrap">
+      <p class="eyebrow">Perfil</p>
+      <h2>Dos formaciones, un mismo lenguaje</h2>
+      <p class="intro" style="margin-bottom:16px; max-width:72ch">
+        Soy ingeniera en administración y curso Ingeniería Informática en Duoc UC, sede Puerto Montt.
+        Eso me permite moverme entre ambos mundos: entiendo el proceso de negocio y también cómo
+        convertirlo en software, datos y automatización.
+      </p>
+      <p class="intro" style="margin-bottom:16px; max-width:72ch">
+        Sirvo de enlace entre áreas. Traduzco lo que necesita operaciones, finanzas o un usuario
+        no técnico a un requerimiento claro, y dejo el resultado en un dashboard, un script o un
+        sistema que se pueda volver a usar. No me quedo solo en el código ni solo en la planilla:
+        conecto las dos orillas.
+      </p>
+      <ul class="facts" style="max-width:72ch">
+        <li><b>Formación</b> Ingeniería en Administración (Santo Tomás) e Ingeniería Informática (Duoc UC Puerto Montt).</li>
+        <li><b>Rol</b> Enlace entre negocio y tecnología: requisitos, datos, reportes y desarrollo.</li>
+        <li><b>Hoy</b> Dashboards, automatización con Python, tableros HTML y prototipos de sistemas.</li>
+        <li><b>Certificaciones</b> Generative AI Professional (Certiprof) y formación en IA aplicada a procesos.</li>
+        <li><b>Cómo trabajo</b> Alcance claro, prototipo rápido y entrega que se puede actualizar. Disponible para teletrabajo.</li>
+      </ul>
+      <div class="tech">
+        <span>Python</span><span>pandas</span><span>HTML/CSS/JS</span><span>FastAPI</span>
+        <span>Power BI</span><span>Excel</span><span>SQL</span><span>Git</span><span>Java</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" style="padding-top:0">
+    <div class="wrap">
+      <div class="contact-box">
+        <p class="eyebrow">Contacto</p>
+        <h2>Solicitar una propuesta</h2>
+        <p class="intro">Dashboard, automatización de reportes, sitio web o prototipo de sistema. Indique el alcance y responderé con factibilidad y plazo.</p>
+        <div class="contact-grid">
+          <div class="contact-list">
+            <a href="mailto:fa.araujo@duocuc.cl"><small>Email</small><b>fa.araujo@duocuc.cl</b></a>
+            <a href="https://wa.me/56932799172" target="_blank" rel="noopener"><small>WhatsApp / Teléfono</small><b>+56 9 3279 9172</b></a>
+            <a href="https://www.linkedin.com/in/fanny-araujo-1a6650221" target="_blank" rel="noopener"><small>LinkedIn</small><b>fanny-araujo-1a6650221</b></a>
+            <a href="https://github.com/andrenany" target="_blank" rel="noopener"><small>GitHub</small><b>github.com/andrenany</b></a>
+            <span><small>Ubicación</small><b>Puerto Montt · teletrabajo</b></span>
+          </div>
+          <form id="form-contacto">
+            <input name="nombre" placeholder="Tu nombre" required />
+            <input name="email" type="email" placeholder="Tu email" required />
+            <textarea name="mensaje" placeholder="¿Qué necesitas? (dashboard, automatización, web…)" required></textarea>
+            <button class="btn btn-lime" type="submit">Enviar consulta</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© 2026 Fanny Araujo</span>
+      <span>Ingeniería Informática · Duoc UC Puerto Montt</span>
+    </div>
+  </footer>
+
+  <script>
+    const menu = document.getElementById("menu");
+    document.getElementById("burger").addEventListener("click", () => menu.classList.toggle("open"));
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => menu.classList.remove("open")));
+
+    const filtros = document.querySelectorAll("#filtros button");
+    const cards = document.querySelectorAll("#cards .project");
+    filtros.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filtros.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        cards.forEach((c) => { c.style.display = f === "all" || c.dataset.cat === f ? "" : "none"; });
+      });
+    });
+
+    document.getElementById("form-contacto").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const body = `Hola Fanny,%0A%0ASoy ${fd.get("nombre")} (${fd.get("email")}).%0A%0A${fd.get("mensaje")}`;
+      location.href = `mailto:fa.araujo@duocuc.cl?subject=Trabajo de informática&body=${body}`;
+    });
+
+    Chart.defaults.color = "#6b6468";
+    Chart.defaults.borderColor = "#e4ddd6";
+    new Chart(document.getElementById("demoChart"), {
+      type: "bar",
+      data: {
+        labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"],
+        datasets: [
+          {
+            type: "line",
+            label: "Tiempo ahorrado (h)",
+            data: [4, 6, 9, 11, 14, 16, 18, 21],
+            borderColor: "#8b4a5a",
+            backgroundColor: "transparent",
+            tension: 0.35,
+            yAxisID: "y1",
+          },
+          {
+            label: "Reportes automáticos",
+            data: [2, 3, 5, 6, 8, 9, 11, 13],
+            backgroundColor: "rgba(44,36,48,.78)",
+            borderRadius: 8,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { font: { family: "Source Sans 3" } } } },
+        scales: {
+          y: { title: { display: true, text: "Reportes" } },
+          y1: { position: "right", grid: { display: false }, title: { display: true, text: "Horas" } },
+        },
+      },
+    });
+  </script>
+</body>
+</html>
