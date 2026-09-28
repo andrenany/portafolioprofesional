@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     :root {
       --bg: #f4f2ef;
@@ -177,13 +176,26 @@
     .project p { color: var(--muted); flex: 1; }
     .stack-line { font-size: .82rem; color: #7a7276; }
 
-    .demo {
-      margin-top: 18px; background: var(--card); border: 1px solid var(--line);
-      border-radius: 14px; padding: 22px;
+    .hire {
+      margin-top: 22px; background: var(--navy); color: #f4f2ef;
+      border-radius: 16px; padding: 28px;
     }
-    .demo-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .demo-head span { color: var(--muted); font-size: .85rem; }
-    .chart-wrap { height: 280px; margin-top: 8px; }
+    .hire h3 { font-family: Fraunces, serif; font-size: 1.45rem; margin: 8px 0 10px; }
+    .hire p { color: #c8c0c4; max-width: 72ch; }
+    .hire-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px;
+    }
+    .hire-card {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: 16px;
+    }
+    .hire-card b { display: block; margin-bottom: 6px; }
+    .hire-card span { color: #c8c0c4; font-size: .92rem; }
+    .hire-keys { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .hire-keys span {
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 6px; padding: 6px 10px; font-size: .8rem; font-weight: 600;
+    }
 
     .tech { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
     .tech span {
@@ -220,7 +232,7 @@
     .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
     @media (max-width: 900px) {
-      .split, .services, .projects, .contact-grid { grid-template-columns: 1fr; }
+      .split, .services, .projects, .contact-grid, .hire-grid { grid-template-columns: 1fr; }
       .burger { display: grid; place-items: center; }
       .nav-links {
         display: none; position: absolute; right: 18px; top: 68px;
@@ -240,6 +252,7 @@
       <ul class="nav-links" id="menu">
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#encaje">Encaje</a></li>
         <li><a href="#sobre">Sobre mí</a></li>
         <li><a href="#contacto" class="nav-cta">Contacto</a></li>
       </ul>
@@ -346,12 +359,6 @@
           <p>RFM + K-Means, reglas Apriori, cohortes y dashboard de insights para campaña. De notebook a tablero HTML usable.</p>
           <p class="stack-line">pandas · scikit-learn · HTML</p>
         </article>
-        <article class="project" data-cat="datos">
-          <span class="tag">Machine learning</span>
-          <h3>Tasación InnovaReal Estate</h3>
-          <p>Modelo predictivo de precios de vivienda: preparación de datos, visualización y análisis crítico del resultado.</p>
-          <p class="stack-line">Python · Jupyter · modelos predictivos</p>
-        </article>
         <article class="project" data-cat="web">
           <span class="tag">APIs</span>
           <h3>Clima, Pokédex y más</h3>
@@ -359,13 +366,34 @@
           <p class="stack-line"><a href="https://github.com/andrenany" target="_blank" rel="noopener">github.com/andrenany</a></p>
         </article>
       </div>
+    </div>
+  </section>
 
-      <div class="demo">
-        <div class="demo-head">
-          <h3>Ejemplo de tablero</h3>
-          <span>Datos de ejemplo · no son de un cliente</span>
+  <section id="encaje" style="padding-top:0">
+    <div class="wrap">
+      <div class="hire">
+        <p class="eyebrow" style="color:#e2c4cc">Para contratación</p>
+        <h3>Listo para un rol junior/mid de datos, desarrollo o analista funcional.</h3>
+        <p>No necesito un mes de inducción para entender un Excel de negocio. Levanto el requerimiento, lo paso a código y dejo un entregable que otra persona pueda volver a correr.</p>
+        <div class="hire-grid">
+          <article class="hire-card">
+            <b>Roles en los que encajo</b>
+            <span>Analista de datos, desarrolladora Python/web, analista funcional, soporte a BI y automatización de reportes.</span>
+          </article>
+          <article class="hire-card">
+            <b>Problema que resuelvo</b>
+            <span>Informes armados a mano, reglas de negocio en la cabeza de una sola persona y pedidos que se rehacen cada semana.</span>
+          </article>
+          <article class="hire-card">
+            <b>Qué entrego</b>
+            <span>Script o dashboard documentado, filtros claros, y un proceso que se actualiza cuando llegan datos nuevos.</span>
+          </article>
         </div>
-        <div class="chart-wrap"><canvas id="demoChart"></canvas></div>
+        <div class="hire-keys">
+          <span>Python</span><span>pandas</span><span>ETL</span><span>SQL</span><span>Excel</span>
+          <span>Power BI</span><span>HTML/CSS/JS</span><span>FastAPI</span><span>Git</span>
+          <span>requisitos</span><span>documentación</span><span>teletrabajo</span>
+        </div>
       </div>
     </div>
   </section>
@@ -452,41 +480,6 @@
       const fd = new FormData(e.target);
       const body = `Hola Fanny,%0A%0ASoy ${fd.get("nombre")} (${fd.get("email")}).%0A%0A${fd.get("mensaje")}`;
       location.href = `mailto:fa.araujo@duocuc.cl?subject=Trabajo de informática&body=${body}`;
-    });
-
-    Chart.defaults.color = "#6b6468";
-    Chart.defaults.borderColor = "#e4ddd6";
-    new Chart(document.getElementById("demoChart"), {
-      type: "bar",
-      data: {
-        labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"],
-        datasets: [
-          {
-            type: "line",
-            label: "Tiempo ahorrado (h)",
-            data: [4, 6, 9, 11, 14, 16, 18, 21],
-            borderColor: "#8b4a5a",
-            backgroundColor: "transparent",
-            tension: 0.35,
-            yAxisID: "y1",
-          },
-          {
-            label: "Reportes automáticos",
-            data: [2, 3, 5, 6, 8, 9, 11, 13],
-            backgroundColor: "rgba(44,36,48,.78)",
-            borderRadius: 8,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { labels: { font: { family: "Source Sans 3" } } } },
-        scales: {
-          y: { title: { display: true, text: "Reportes" } },
-          y1: { position: "right", grid: { display: false }, title: { display: true, text: "Horas" } },
-        },
-      },
     });
   </script>
 </body>
